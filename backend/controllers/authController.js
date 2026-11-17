@@ -1,17 +1,18 @@
 import jwt from "jsonwebtoken";
 import { User } from "../models/User.js";
+const isProd = process.env.NODE_ENV === "production";
 
 const setSessionCookie = (res, payload) => {
   const jwtSecret = process.env.JWT_SECRET || "fallback_secret";
   const token = jwt.sign(payload, jwtSecret, { expiresIn: "30d" });
 
-  res.cookie("token", token, {
+  res.cookie("token", token, { // logout me ""
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    maxAge: 30 * 24 * 60 * 60 * 1000,
+    secure: isProd,
+    sameSite: isProd ? "none" : "lax",
+    maxAge: isProd ? 30 * 24 * 60 * 60 * 1000 : 0, // setSessionCookie me full time, logout me 0
     path: "/",
-  });
+  })
 };
 
 export async function register(req, res) {
