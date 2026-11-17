@@ -1,0 +1,81 @@
+@import "tailwindcss";
+
+/* ─── Sandpack Full Height Layout ─── */
+.full-page-preview,
+.full-page-preview .sp-wrapper,
+.full-page-preview .sp-layout,
+.full-page-preview .sp-stack,
+.full-page-preview .sp-preview,
+.full-page-preview .sp-preview-container,
+.full-page-preview .sp-preview-iframe,
+.full-page-preview iframe {
+  height: 100vh !important;
+  max-height: 100vh !important;
+  min-height: 100vh !important;
+  width: 100vw !important;
+  border: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.sp-wrapper {
+  height: 100% !important;
+  width: 100% !important;
+}
+
+.sp-layout {
+  height: 100% !important;
+  width: 100% !important;
+}
+
+.sp-preview {
+  height: 100% !important;
+  width: 100% !important;
+}
+
+.sp-preview-container {
+  height: 100% !important;
+  width: 100% !important;
+}
+
+.sp-preview-iframe {
+  height: 100% !important;
+  width: 100% !important;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 28s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+.dot-loader {
+  display: flex;
+  gap: 4px;
+  padding-top: 6px;
+}
+
+.dot-loader span {
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background-color: #71717a;
+  animation: bounce 1.2s infinite ease-in-out;
+}
+
+.dot-loader span:nth-child(2) { animation-delay: 0.2s; }
+.dot-loader span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes bounce {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+  40% { transform: scale(1); opacity: 1; }
+}
