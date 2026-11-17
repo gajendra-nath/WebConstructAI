@@ -10,10 +10,22 @@ import projectRouter from "./routes/projectRoutes.js";
 const app = express();
 await connectToDatabase();
 
+const allowedOrigins = process.env.ORIGINS
+  ? process.env.ORIGINS.split(",").map((o) => o.trim().replace(/\/$/, ""))
+  : ["http://localhost:5173", "http://localhost:3000"];
+
 app.use(express.json());
 app.use(
   cors({
-    origin: process.env.ORIGINS.split(","),
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      const cleanOrigin = origin.replace(/\/$/, "");
+      if (allowedOrigins.includes(cleanOrigin)) {
+        return callback(null, true);
+      }
+      console.warn(`[CORS] Origin ${origin} not in allowedOrigins:`, allowedOrigins);
+      return callback(new Error(`CORS policy blocked access from origin: ${origin}`));
+    },
     credentials: true,
   })
 );

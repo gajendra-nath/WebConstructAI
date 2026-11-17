@@ -6,13 +6,13 @@ const setSessionCookie = (res, payload) => {
   const jwtSecret = process.env.JWT_SECRET || "fallback_secret";
   const token = jwt.sign(payload, jwtSecret, { expiresIn: "30d" });
 
-  res.cookie("token", token, { // logout me ""
+  res.cookie("token", token, {
     httpOnly: true,
     secure: isProd,
     sameSite: isProd ? "none" : "lax",
-    maxAge: isProd ? 30 * 24 * 60 * 60 * 1000 : 0, // setSessionCookie me full time, logout me 0
+    maxAge: 30 * 24 * 60 * 60 * 1000,
     path: "/",
-  })
+  });
 };
 
 export async function register(req, res) {
@@ -74,8 +74,8 @@ export async function login(req, res) {
 export async function logout(_req, res) {
   res.cookie("token", "", {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
+    secure: isProd,
+    sameSite: isProd ? "none" : "lax",
     maxAge: 0,
     path: "/",
   });
